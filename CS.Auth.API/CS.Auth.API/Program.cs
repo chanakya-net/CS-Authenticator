@@ -6,7 +6,7 @@ using CS.Auth.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 {
     // Add services to the container.
-    builder.Services.AddOptions<TokenOptionConfiguration>().BindConfiguration("Auth:TokenOptionConfiguration");
+    builder.Services.AddOptions<JwtTokenOption>().BindConfiguration("Auth:TokenOptionConfiguration");
     builder.Services.AddControllers();
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure();

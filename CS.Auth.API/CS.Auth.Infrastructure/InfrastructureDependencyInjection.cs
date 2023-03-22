@@ -8,7 +8,7 @@ public static class InfrastructureDependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<IGenerateAuthToken, GenerateAuthToken>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         return services;
     }
 }

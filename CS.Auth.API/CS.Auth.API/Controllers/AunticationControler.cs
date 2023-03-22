@@ -1,11 +1,19 @@
 using CS.Auth.Application.DTO.Request;
+using CS.Auth.Application.Services.Interface;
 
 namespace CS.Auth.API.Controllers;
 
 [Route("api/Auth")]
 [ApiController]
-public class AunticationControler : ControllerBase
+public class AuthenticationController : ControllerBase
 {
+    private readonly IAuthenticationService _authenticationService;
+
+    public AuthenticationController(IAuthenticationService authenticationService)
+    {
+        _authenticationService = authenticationService;
+    }
+
     [HttpPost("Register")]
     public Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
@@ -13,8 +21,9 @@ public class AunticationControler : ControllerBase
     }
     
     [HttpPost("Login")]
-    public Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        throw new NotImplementedException();
+        var res = await _authenticationService.ValidateLoginAsync("111","222",default);
+        return Ok(res);
     }
 }

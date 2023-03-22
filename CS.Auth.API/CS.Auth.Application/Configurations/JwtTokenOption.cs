@@ -1,6 +1,6 @@
 namespace CS.Auth.Application.Configurations;
 
-public record TokenOptionConfiguration
+public record JwtTokenOption
 {
     public required string Issuer { get; init; }
     public required string ExpireAfterHrs { get; set; }
