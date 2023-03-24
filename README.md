@@ -9,3 +9,4 @@
 > POST /api/auth/register
 >
 > Use to register a new user. Returns Created user.
+> 
