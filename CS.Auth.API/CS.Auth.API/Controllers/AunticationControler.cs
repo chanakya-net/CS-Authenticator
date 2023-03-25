@@ -2,7 +2,6 @@ using Asp.Versioning;
 using CS.Auth.Application.DTO.Request;
 using CS.Auth.Application.DTO.Response;
 using CS.Auth.Application.Services.Interface;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CS.Auth.API.Controllers;
 

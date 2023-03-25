@@ -1,15 +1,19 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using CS.Auth.API.Exceptions;
 using CS.Auth.API.Middleware;
 using CS.Auth.API.Swagger;
 using CS.Auth.Application;
 using CS.Auth.Application.Configurations;
 using CS.Auth.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     // Add services to the container.
     builder.Services.AddOptions<JwtTokenOption>().BindConfiguration("Auth:TokenOptionConfiguration");
+    builder.Services.TryAddSingleton<ProblemDetailsFactory,AuthProblemDetailsFactory>();
     builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
     builder.Services.AddApiVersioning(apiVersionOptions =>
         {
@@ -34,6 +38,7 @@ var app = builder.Build();
 
     if(builder.Configuration.GetValue<bool>("AllowSwagger"))
     {
+        app.UseExceptionHandler("/exception");
         app.UseSwagger();
         var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
         app.UseSwaggerUI(options =>
@@ -47,7 +52,6 @@ var app = builder.Build();
     }
     // Configure the HTTP request pipeline.
     app.UseHttpsRedirection();
-    app.UseMiddleware<ExceptionHandlerMiddleware>();
     app.MapControllers();
     app.Run();
 }
