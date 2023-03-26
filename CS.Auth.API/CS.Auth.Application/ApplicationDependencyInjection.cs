@@ -1,5 +1,3 @@
-using CS.Auth.Application.Services.Implementation;
-using CS.Auth.Application.Services.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CS.Auth.Application;

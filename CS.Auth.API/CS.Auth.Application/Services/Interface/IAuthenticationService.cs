@@ -1,9 +1,7 @@
-using CS.Auth.Application.DTO.Response;
-
 namespace CS.Auth.Application.Services.Interface;
 
 public interface IAuthenticationService
 {
-    Task<LoginResponse>
+    Task<ErrorOr<LoginResponse>>
         ValidateLoginAsync(string userName, string password, CancellationToken cancellationToken);
 }

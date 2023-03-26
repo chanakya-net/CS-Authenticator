@@ -1,5 +1,6 @@
 using Asp.Versioning.ApiExplorer;
-using Microsoft.Extensions.Options;
+using CS.Auth.API.Base;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -43,5 +44,25 @@ public class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
         }
 
         return info;
+    }
+}
+
+public class ExcludeControllersDocumentFilter : IDocumentFilter
+{
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+    {
+        var excludedControllers = new[] { typeof(BaseApiController) };
+
+        foreach (var apiDescription in context.ApiDescriptions)
+        {
+            var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor == null) continue;
+
+            var controllerType = controllerActionDescriptor.ControllerTypeInfo.AsType();
+            if (excludedControllers.Contains(controllerType))
+            {
+                swaggerDoc.Paths.Remove("/" + apiDescription.RelativePath);
+            }
+        }
     }
 }

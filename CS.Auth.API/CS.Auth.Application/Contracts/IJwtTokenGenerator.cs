@@ -1,5 +1,3 @@
-using CS.Auth.Application.Classes;
-
 namespace CS.Auth.Application.Contracts;
 
 public interface IJwtTokenGenerator

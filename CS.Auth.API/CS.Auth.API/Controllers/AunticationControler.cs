@@ -1,15 +1,17 @@
 using Asp.Versioning;
+using CS.Auth.API.Base;
 using CS.Auth.Application.DTO.Request;
 using CS.Auth.Application.DTO.Response;
 using CS.Auth.Application.Services.Interface;
 
 namespace CS.Auth.API.Controllers;
 
-[Route("api/Auth")]
+
 [ApiController]
+[Route("api/Auth")]
 [ApiVersion(1.0)]
 [ApiVersion(2.0)]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : BaseApiController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -26,12 +28,18 @@ public class AuthenticationController : ControllerBase
     }
     
     [HttpPost("Login")]
-    [MapToApiVersion(2.0)]
+    [MapToApiVersion(1.0)]
     [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var res = await _authenticationService.ValidateLoginAsync("111","222",default);
-        return Ok(res);
+        var res = 
+            await _authenticationService.ValidateLoginAsync(request.UserName,request.Password,default);
+        return res.Match(
+        
+            Ok,
+            errors => base.Problem(errors)
+        );
+        
     }
     
     

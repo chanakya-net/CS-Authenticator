@@ -1,13 +1,8 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using CS.Auth.API.Exceptions;
-using CS.Auth.API.Middleware;
 using CS.Auth.API.Swagger;
-using CS.Auth.Application;
-using CS.Auth.Application.Configurations;
-using CS.Auth.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -24,7 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
         }
         ).AddMvc().AddApiExplorer();
     builder.Services.AddControllers();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(
+        options=>options.DocumentFilter<ExcludeControllersDocumentFilter>()
+        );
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure();
 }

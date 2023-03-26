@@ -3,6 +3,7 @@ namespace CS.Auth.API.Exceptions;
 public class ExceptionController : ControllerBase
 {
     [Route("/exception")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult ExceptionHandler()
     {
         return Problem();
